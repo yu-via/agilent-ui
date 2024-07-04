@@ -7,25 +7,25 @@ resource_str = "USB0::0x0957::0x0618::MY51141218::0::INSTR"
 
 # Initialize PyVISA's ResourceManager
 rm = pyvisa.ResourceManager()
+def dc_volt():
+    try:
+        # Open a connection to the instrument
+        with rm.open_resource(resource_str) as inst:
+            # Query the instrument's identification information
+            idn = inst.query("*IDN?")
+            print(f"Connected to: {idn.strip()}")
 
-try:
-    # Open a connection to the instrument
-    with rm.open_resource(resource_str) as inst:
-        # Query the instrument's identification information
-        idn = inst.query("*IDN?")
-        print(f"Connected to: {idn.strip()}")
+            # Example: Set the measurement function to DC voltage
+            inst.write("CONF:VOLT:DC")
+            
+            # Example: Initiate a single measurement and read the result
+            inst.write("INIT")
+            result = inst.query("FETCH?")
+            return(f"Measurement result: {result.strip()}")
 
-        # Example: Set the measurement function to DC voltage
-        inst.write("CONF:VOLT:DC")
-        
-        # Example: Initiate a single measurement and read the result
-        inst.write("INIT")
-        result = inst.query("FETCH?")
-        print(f"Measurement result: {result.strip()}")
+    except pyvisa.Error as e:
+        print(f"PyVISA error: {e}")
 
-except pyvisa.Error as e:
-    print(f"PyVISA error: {e}")
-
-finally:
-    # Close the connection
-    rm.close()
+    finally:
+        # Close the connection
+        rm.close()
