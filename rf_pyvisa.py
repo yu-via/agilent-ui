@@ -14,6 +14,7 @@ def set_ac(dev,fm):
     inst.write("FUNC:SHAP SIN")
     inst.write("FM:STAT ON")
     inst.write("OUTP:STAT ON")
+    inst.write(f"FREQ {110*10**6}")
     inst.write(f"FM:DEV {dev}")
     inst.write(f"FM:INT:FREQ {fm}")
     inst.close()
