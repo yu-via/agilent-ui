@@ -173,7 +173,7 @@ with gr.Blocks() as demo:
 
         generate_button.click(
             fn=calc_ac_dev,
-            inputs=[range_input, dev_input, fm_input, times_input, existing_data],
+            inputs=[range_input, dev_min,dev_max, fm_input, interval, times_input, existing_data],
             outputs=[output_table, existing_data, dev_plot, error_plot]
         )
 
