@@ -74,7 +74,6 @@ def download_ac(name,data):
     csv_file = name+".csv"
     df.to_csv(csv_file, index=False)
     return csv_file
-
 with gr.Blocks() as demo:
     with gr.Tab("DC Velocity"):
         with gr.Row():
@@ -88,10 +87,11 @@ with gr.Blocks() as demo:
             with gr.Column(scale=6):
                 output_table = gr.Dataframe(headers=["Range", "Shift", "Measured", "Expected", "Error"])
                 existing_data = gr.State(value=[])
-            with gr.Column(scale=1):
+        with gr.Row():
+            csv_name = gr.Text(label="File name",value="data")
+            with gr.Column():
                 generate_button = gr.Button("Calculate")
                 reset_button = gr.Button("Reset")
-                csv_name = gr.Text(label="File name",value="data")
                 download_button = gr.Button("Download as CSV")
         with gr.Tab("Measured vs Shift"):
             output_plot = gr.LinePlot(x="Shift", y="Measured", label="Measured vs Shift")
@@ -128,10 +128,11 @@ with gr.Blocks() as demo:
             with gr.Column(scale=6):
                 output_table = gr.Dataframe(headers=["Range", "Freq Dev", "FM Freq", "Measured", "Expected", "Error"])
                 existing_data = gr.State(value=[])
-            with gr.Column(scale=1):
+        with gr.Row():
+            csv_name = gr.Text(label="File name",value="data")
+            with gr.Column():
                 generate_button = gr.Button("Calculate")
                 reset_button = gr.Button("Reset")
-                csv_name = gr.Text(label="File name",value="data")
                 download_button = gr.Button("Download as CSV")
         with gr.Tab("Measured vs FM Freq"):
             fm_plot = gr.LinePlot(x="FM Freq", y="Measured", label="Measured vs FM Freq")
@@ -166,11 +167,12 @@ with gr.Blocks() as demo:
                 times_input = gr.Slider(label="Number of Data Points", value=10)
             with gr.Column(scale=6):
                 output_table = gr.Dataframe(headers=["Range", "Freq Dev", "FM Freq", "Measured", "Expected", "Error"])
-                existing_data = gr.State(value=[])
-            with gr.Column(scale=1):
+                existing_data = gr.State(value=[])                
+        with gr.Row():
+            csv_name = gr.Text(label="File name",value="data")
+            with gr.Column():
                 generate_button = gr.Button("Calculate")
                 reset_button = gr.Button("Reset")
-                csv_name = gr.Text(label="File name",value="data")
                 download_button = gr.Button("Download as CSV")
         with gr.Tab("Measured vs Freq Dev"):
             dev_plot = gr.LinePlot(x="Freq Dev", y="Measured", label="Measured vs Freq Dev")
