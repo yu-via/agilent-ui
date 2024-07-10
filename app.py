@@ -197,4 +197,4 @@ with gr.Blocks() as demo:
             outputs=gr.File()
         )
 
-demo.launch(share=True)
+demo.launch()
