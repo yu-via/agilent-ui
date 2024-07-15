@@ -60,6 +60,22 @@ def combined_plot(df_list,range):
     plt.grid(True)
     plt.legend(title='Range Values')
     plt.show()
+def zoom_plot(df_list,range):
+    plt.figure(figsize=(20, 12))
+    colors = cycle(['b', 'g', 'r', 'c', 'm', 'y', 'k'])
+    for df, color, max_val in zip(df_list, colors, range):
+        df['Normalized'] = df['Freq Dev'] / max_val
+        df = df[(df['Error'] >= -1) & (df['Error'] <= 1)]        
+        range_value = df['Range'].iloc[0]
+        plt.plot(df['Normalized'], df['Error'], marker='o', linestyle='-', color=color, label=f'Range {range_value}')
+    
+    plt.xscale('log')
+    plt.title('Percent Error vs. Freq Dev')
+    plt.xlabel('Normalized Freq Dev')
+    plt.ylabel('Percent Error')
+    plt.grid(True)
+    plt.legend(title='Range Values')
+    plt.show()   
 file100_1 = 'plots/range100_dev0.1-45.csv'
 file100_2 = 'plots/range100_dev50-1800.csv'
 
@@ -83,3 +99,4 @@ file200_2 = 'plots/range200_dev50-3300.csv'
 df_list = [combine(file10_1,file10_2),combine(file20_1,file20_2),combine(file50_1,file50_2),combine(file100_1,file100_2),combine(file200_1,file200_2),combine(file500_1,file500_2),combine(file1000_1,file1000_2)]
 range_list = [158,316,790,1580,3160,7901,15802]
 combined_plot(df_list,range_list)
+zoom_plot(df_list,range_list)
