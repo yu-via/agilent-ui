@@ -44,6 +44,10 @@ def combine(file1,file2):
     
     combined_df = combined_df.sort_values(by='Freq Dev')
     return combined_df
+def convert(file):
+    df = pd.read_csv(file)
+    df = df.sort_values(by='Freq Dev')
+    return df
 def combined_plot(df_list,range):
     plt.figure(figsize=(20, 12))
     colors = cycle(['b', 'g', 'r', 'c', 'm', 'y', 'k'])
@@ -96,7 +100,16 @@ file1000_2 = 'plots/range1000_dev50-15000.csv'
 
 file200_1 = 'plots/range200_dev0.05-45.csv'
 file200_2 = 'plots/range200_dev50-3300.csv'
+
+new_file200 = 'plots/range200_dev0.05-3300_new.csv'
+new_file100 = 'plots/range100_dev0.1-1800_new.csv'
+
+new_file50_1 = 'plots/range50_dev0.1-9.5_new.csv'
+new_file50_2 = 'plots/range50_dev10-840_new.csv'
+
 df_list = [combine(file10_1,file10_2),combine(file20_1,file20_2),combine(file50_1,file50_2),combine(file100_1,file100_2),combine(file200_1,file200_2),combine(file500_1,file500_2),combine(file1000_1,file1000_2)]
 range_list = [158,316,790,1580,3160,7901,15802]
+df2 = [combine(file50_1,file50_2),combine(new_file50_1,new_file50_2)]
+range2 = [790,790]
 combined_plot(df_list,range_list)
 zoom_plot(df_list,range_list)
