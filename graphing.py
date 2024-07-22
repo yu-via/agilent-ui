@@ -80,6 +80,9 @@ def zoom_plot(df_list,range):
     plt.grid(True)
     plt.legend(title='Range Values')
     plt.show()   
+file5_1 = 'plots/range5_dev0.05-2.csv'
+file5_2 = 'plots/range5_dev5-95.csv'
+
 file100_1 = 'plots/range100_dev0.1-45.csv'
 file100_2 = 'plots/range100_dev50-1800.csv'
 
@@ -107,9 +110,24 @@ new_file100 = 'plots/range100_dev0.1-1800_new.csv'
 new_file50_1 = 'plots/range50_dev0.1-9.5_new.csv'
 new_file50_2 = 'plots/range50_dev10-840_new.csv'
 
+new_file5 = 'plots/range5_dev0.05-95_new.csv'
+
+new_file10 = 'plots/range10_dev0.1-195_new.csv'
+
+new_file20 = 'plots/range20_dev0.5-365_new.csv'
+
+new_file500 = 'plots/range500_dev0.05-9000_new.csv'
+
+new_file1000 = 'plots/range1000_dev0.1-13000_new.csv'
+
 df_list = [combine(file10_1,file10_2),combine(file20_1,file20_2),combine(file50_1,file50_2),combine(file100_1,file100_2),combine(file200_1,file200_2),combine(file500_1,file500_2),combine(file1000_1,file1000_2)]
+df_list = [convert(new_file10),convert(new_file20),combine(new_file50_1,new_file50_2),convert(new_file100),convert(new_file200),convert(new_file500),convert(new_file1000)]
 range_list = [158,316,790,1580,3160,7901,15802]
-df2 = [combine(file50_1,file50_2),combine(new_file50_1,new_file50_2)]
-range2 = [790,790]
-combined_plot(df_list,range_list)
-zoom_plot(df_list,range_list)
+
+#combined_plot(df_list,range_list)
+#zoom_plot(df_list,range_list)
+
+df = [convert('plots/new_range1000_test.csv'),convert('plots/new_range1000_test2.csv'),combine(file1000_1,file1000_2),convert(new_file1000)]
+range = [15802,15802,15802,15802]
+combined_plot(df,range)
+zoom_plot(df,range)
