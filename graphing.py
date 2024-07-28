@@ -49,7 +49,7 @@ def convert(file):
     df = df.sort_values(by='Freq Dev')
     return df
 def combined_plot(df_list,range):
-    plt.figure(figsize=(20, 12))
+    plt.figure(figsize=(10, 6))
     colors = cycle(['b', 'g', 'r', 'c', 'm', 'y', 'k'])
     for df, color, max_val in zip(df_list, colors, range):
         df['Normalized'] = df['Freq Dev'] / max_val
@@ -65,7 +65,7 @@ def combined_plot(df_list,range):
     plt.legend(title='Range Values')
     plt.show()
 def zoom_plot(df_list,range):
-    plt.figure(figsize=(20, 12))
+    plt.figure(figsize=(10, 6))
     colors = cycle(['b', 'g', 'r', 'c', 'm', 'y', 'k'])
     for df, color, max_val in zip(df_list, colors, range):
         df['Normalized'] = df['Freq Dev'] / max_val
@@ -123,8 +123,8 @@ df_list = [combine(file10_1,file10_2),combine(file20_1,file20_2),combine(file50_
 df_list = [convert('plots/newrange10.csv'),convert(new_file20),combine(new_file50_1,new_file50_2),convert(new_file100),convert(new_file200),convert(new_file500),combine('plots/new_range1000_test2.csv','plots/range1000_dev10000-14900.csv')]
 range_list = [158,316,790,1580,3160,7901,15802]
 
-#combined_plot(df_list,range_list)
-#zoom_plot(df_list,range_list)
+combined_plot(df_list,range_list)
+zoom_plot(df_list,range_list)
 '''
 df = [convert('plots/new_range1000_test.csv'),convert('plots/new_range1000_test2.csv'),combine(file1000_1,file1000_2),convert(new_file1000)]
 range = [15802,15802,15802,15802]
@@ -136,19 +136,19 @@ import matplotlib.pyplot as plt
 
 def plot_error_vs_freq_dev(df1, df2):
 
-    df1 = df1[df1['Error'] <= 1]
-    df2 = df2[df2['Error'] <= 1]
-    df1 = df1[df1['Error'] >= -1]
-    df2 = df2[df2['Error'] >= -1]
-    
+    df1 = df1[df1['Error'] <= 0.25]
+    df2 = df2[df2['Error'] <= 0.25]
+    df1 = df1[df1['Error'] >= -0.10]
+    df2 = df2[df2['Error'] >= -0.10]
+ 
     range1 = df1['Range'].iloc[0]
     range2 = df2['Range'].iloc[0]
     
-    fig, ax1 = plt.subplots(figsize=(20, 12))
+    fig, ax1 = plt.subplots(figsize=(10, 6))
     
-    ax1.plot(df1['Freq Dev'], df1['Error'], marker='o', linestyle='-', color='b', label=f'Range {range1}')
+    ax1.plot(df1['Freq Dev'], df1['Error'], marker='o', linestyle='-', color='b', label=f'Original Range {range1}')
     
-    ax1.plot(df2['Freq Dev'], df2['Error'], marker='o', linestyle='-', color='g', label=f'Range {range2}')
+    ax1.plot(df2['Freq Dev'], df2['Error'], marker='o', linestyle='-', color='g', label=f'Updated Range {range2}')
     
     ax1.set_title('Percent Error vs. Freq Dev', fontsize=18)
     ax1.set_xlabel('Freq Dev', fontsize=14)
@@ -166,7 +166,6 @@ def plot_error_vs_freq_dev(df1, df2):
     vel_ticks = freq_to_vel(freq_ticks)
     ax2.set_xticks(freq_ticks)
     ax2.set_xticklabels([f'{vel:.2f}' for vel in vel_ticks])
-    ax2.grid(True, which='both', linestyle='--', linewidth=0.5)
     
     plt.show()
 
