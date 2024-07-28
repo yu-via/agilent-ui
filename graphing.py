@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 from itertools import cycle
-
+import math
 def freq_dev_error_zoom(csv_file):
     df_full = pd.read_csv(csv_file)
     df = df_full[df_full['Error'] >=0]
@@ -31,9 +31,9 @@ def two_full_plot(csv1,csv2):
     plt.figure(figsize=(20, 12))
     plt.plot(df1['Freq Dev'], df1['Error'], marker='o', linestyle='-', color='g')
     plt.plot(df2['Freq Dev'], df2['Error'], marker='o', linestyle='-', color='r')
-    plt.title('Percent Error vs. Freq Dev')
-    plt.xlabel('Freq Dev')
-    plt.ylabel('Percent Error')
+    plt.title('Percent Error vs. Freq Dev', fontsize=18)
+    plt.xlabel('Freq Dev', fontsize=18)
+    plt.ylabel('Percent Error', fontsize=18)
     plt.grid(True)
     plt.show()
 def combine(file1,file2):
@@ -58,10 +58,10 @@ def combined_plot(df_list,range):
         plt.plot(df['Normalized'], df['Error'], marker='o', linestyle='-', color=color, label=f'Range {range_value}')
     
     plt.xscale('log')
-    plt.title('Percent Error vs. Freq Dev')
-    plt.xlabel('Normalized Freq Dev')
-    plt.ylabel('Percent Error')
-    plt.grid(True)
+    #plt.yscale('log')
+    plt.title('Percent Error vs. Freq Dev', fontsize=18)
+    plt.xlabel('Normalized Freq Dev', fontsize=18)
+    plt.ylabel('Percent Error', fontsize=18)
     plt.legend(title='Range Values')
     plt.show()
 def zoom_plot(df_list,range):
@@ -74,10 +74,9 @@ def zoom_plot(df_list,range):
         plt.plot(df['Normalized'], df['Error'], marker='o', linestyle='-', color=color, label=f'Range {range_value}')
     
     plt.xscale('log')
-    plt.title('Percent Error vs. Freq Dev')
-    plt.xlabel('Normalized Freq Dev')
-    plt.ylabel('Percent Error')
-    plt.grid(True)
+    plt.title('Percent Error vs. Freq Dev', fontsize=18)
+    plt.xlabel('Normalized Freq Dev', fontsize=18)
+    plt.ylabel('Percent Error', fontsize=18)
     plt.legend(title='Range Values')
     plt.show()   
 file5_1 = 'plots/range5_dev0.05-2.csv'
@@ -121,13 +120,54 @@ new_file500 = 'plots/range500_dev0.05-9000_new.csv'
 new_file1000 = 'plots/range1000_dev0.1-13000_new.csv'
 
 df_list = [combine(file10_1,file10_2),combine(file20_1,file20_2),combine(file50_1,file50_2),combine(file100_1,file100_2),combine(file200_1,file200_2),combine(file500_1,file500_2),combine(file1000_1,file1000_2)]
-df_list = [convert(new_file10),convert(new_file20),combine(new_file50_1,new_file50_2),convert(new_file100),convert(new_file200),convert(new_file500),convert(new_file1000)]
+df_list = [convert('plots/newrange10.csv'),convert(new_file20),combine(new_file50_1,new_file50_2),convert(new_file100),convert(new_file200),convert(new_file500),combine('plots/new_range1000_test2.csv','plots/range1000_dev10000-14900.csv')]
 range_list = [158,316,790,1580,3160,7901,15802]
 
 #combined_plot(df_list,range_list)
 #zoom_plot(df_list,range_list)
-
+'''
 df = [convert('plots/new_range1000_test.csv'),convert('plots/new_range1000_test2.csv'),combine(file1000_1,file1000_2),convert(new_file1000)]
 range = [15802,15802,15802,15802]
 combined_plot(df,range)
 zoom_plot(df,range)
+'''
+import pandas as pd
+import matplotlib.pyplot as plt
+
+def plot_error_vs_freq_dev(df1, df2):
+
+    df1 = df1[df1['Error'] <= 1]
+    df2 = df2[df2['Error'] <= 1]
+    df1 = df1[df1['Error'] >= -1]
+    df2 = df2[df2['Error'] >= -1]
+    
+    range1 = df1['Range'].iloc[0]
+    range2 = df2['Range'].iloc[0]
+    
+    fig, ax1 = plt.subplots(figsize=(20, 12))
+    
+    ax1.plot(df1['Freq Dev'], df1['Error'], marker='o', linestyle='-', color='b', label=f'Range {range1}')
+    
+    ax1.plot(df2['Freq Dev'], df2['Error'], marker='o', linestyle='-', color='g', label=f'Range {range2}')
+    
+    ax1.set_title('Percent Error vs. Freq Dev', fontsize=18)
+    ax1.set_xlabel('Freq Dev', fontsize=14)
+    ax1.set_ylabel('Percent Error', fontsize=14)
+    ax1.legend(title='Range Values')
+    
+    ax2 = ax1.twiny()
+    ax2.set_xlabel('Velocity (m/s)', fontsize=14)
+    
+    def freq_to_vel(freq_dev):
+        return freq_dev * 632.81e-6 
+    
+    ax2.set_xlim(ax1.get_xlim())
+    freq_ticks = ax1.get_xticks()
+    vel_ticks = freq_to_vel(freq_ticks)
+    ax2.set_xticks(freq_ticks)
+    ax2.set_xticklabels([f'{vel:.2f}' for vel in vel_ticks])
+    ax2.grid(True, which='both', linestyle='--', linewidth=0.5)
+    
+    plt.show()
+
+plot_error_vs_freq_dev(combine(file1000_1,file1000_2), combine('plots/new_range1000_test2.csv','plots/range1000_dev10000-14900.csv'))
