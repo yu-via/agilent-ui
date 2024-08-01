@@ -55,14 +55,14 @@ def combined_plot(df_list,range):
         df['Normalized'] = df['Freq Dev'] / max_val
         df = df[df['Error'] <=100]
         range_value = df['Range'].iloc[0]
-        plt.plot(df['Normalized'], df['Error'], marker='o', linestyle='-', color=color, label=f'Range {range_value}')
+        plt.plot(df['Normalized'], df['Error'], marker='o', linestyle='-', color=color, label=f'{range_value/100} m/s')
     
     plt.xscale('log')
     #plt.yscale('log')
-    plt.title('Percent Error vs. Freq Dev', fontsize=18)
-    plt.xlabel('Normalized Freq Dev', fontsize=18)
-    plt.ylabel('Percent Error', fontsize=18)
-    plt.legend(title='Range Values')
+    plt.title('Percent Error vs. Freq Dev', fontsize=24)
+    plt.xlabel('Normalized Freq Dev', fontsize=22)
+    plt.ylabel('Percent Error', fontsize=22)
+    plt.legend(title='Decoder Setting\nMax Velocity')
     plt.show()
 def zoom_plot(df_list,range):
     plt.figure(figsize=(10, 6))
@@ -71,13 +71,13 @@ def zoom_plot(df_list,range):
         df['Normalized'] = df['Freq Dev'] / max_val
         df = df[(df['Error'] >= -1) & (df['Error'] <= 1)]        
         range_value = df['Range'].iloc[0]
-        plt.plot(df['Normalized'], df['Error'], marker='o', linestyle='-', color=color, label=f'Range {range_value}')
+        plt.plot(df['Normalized'], df['Error'], marker='o', linestyle='-', color=color, label=f'{range_value/100} m/s')
     
     plt.xscale('log')
-    plt.title('Percent Error vs. Freq Dev', fontsize=18)
-    plt.xlabel('Normalized Freq Dev', fontsize=18)
-    plt.ylabel('Percent Error', fontsize=18)
-    plt.legend(title='Range Values')
+    plt.title('Percent Error vs. Freq Dev', fontsize=24)
+    plt.xlabel('Normalized Freq Dev', fontsize=22)
+    plt.ylabel('Percent Error', fontsize=22)
+    plt.legend(title='Decoder Setting\nMax Velocity')
     plt.show()   
 file5_1 = 'plots/range5_dev0.05-2.csv'
 file5_2 = 'plots/range5_dev5-95.csv'
@@ -146,26 +146,17 @@ def plot_error_vs_freq_dev(df1, df2):
     
     fig, ax1 = plt.subplots(figsize=(10, 6))
     
-    ax1.plot(df1['Freq Dev'], df1['Error'], marker='o', linestyle='-', color='b', label=f'Original Range {range1}')
+    ax1.plot(df1['Freq Dev'], df1['Error'], marker='o', linestyle='-', color='b', label=f'Original Setup')
     
-    ax1.plot(df2['Freq Dev'], df2['Error'], marker='o', linestyle='-', color='g', label=f'Updated Range {range2}')
+    ax1.plot(df2['Freq Dev'], df2['Error'], marker='o', linestyle='-', color='g', label=f'Updated Setup')
     
-    ax1.set_title('Percent Error vs. Freq Dev', fontsize=18)
-    ax1.set_xlabel('Freq Dev', fontsize=14)
-    ax1.set_ylabel('Percent Error', fontsize=14)
-    ax1.legend(title='Range Values')
-    
-    ax2 = ax1.twiny()
-    ax2.set_xlabel('Velocity (m/s)', fontsize=14)
-    
-    def freq_to_vel(freq_dev):
-        return freq_dev * 632.81e-6 
-    
-    ax2.set_xlim(ax1.get_xlim())
-    freq_ticks = ax1.get_xticks()
-    vel_ticks = freq_to_vel(freq_ticks)
-    ax2.set_xticks(freq_ticks)
-    ax2.set_xticklabels([f'{vel:.2f}' for vel in vel_ticks])
+    ax1.set_title('Percent Error vs. Freq Dev', fontsize=24)
+    ax1.set_xlabel('Freq Dev(MHz)', fontsize=22)
+    ax1.set_ylabel('Percent Error', fontsize=22)
+    ax1.legend()
+    ax1.set_xticklabels([f'{int(xtick / 1000)}' for xtick in ax1.get_xticks()])
+
+
     
     plt.show()
 
