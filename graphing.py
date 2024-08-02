@@ -46,7 +46,7 @@ def combine(file1,file2):
     return combined_df
 def convert(file):
     df = pd.read_csv(file)
-    df = df.sort_values(by='Freq Dev')
+    df = df.sort_values(by='FM Freq')
     return df
 def combined_plot(df_list,range):
     plt.figure(figsize=(10, 6))
@@ -123,8 +123,8 @@ df_list = [combine(file10_1,file10_2),combine(file20_1,file20_2),combine(file50_
 df_list = [convert('plots/newrange10.csv'),convert(new_file20),combine(new_file50_1,new_file50_2),convert(new_file100),convert(new_file200),convert(new_file500),combine('plots/new_range1000_test2.csv','plots/range1000_dev10000-14900.csv')]
 range_list = [158,316,790,1580,3160,7901,15802]
 
-combined_plot(df_list,range_list)
-zoom_plot(df_list,range_list)
+#combined_plot(df_list,range_list)
+#zoom_plot(df_list,range_list)
 '''
 df = [convert('plots/new_range1000_test.csv'),convert('plots/new_range1000_test2.csv'),combine(file1000_1,file1000_2),convert(new_file1000)]
 range = [15802,15802,15802,15802]
@@ -160,4 +160,56 @@ def plot_error_vs_freq_dev(df1, df2):
     
     plt.show()
 
-plot_error_vs_freq_dev(combine(file1000_1,file1000_2), combine('plots/new_range1000_test2.csv','plots/range1000_dev10000-14900.csv'))
+#plot_error_vs_freq_dev(combine(file1000_1,file1000_2), combine('plots/new_range1000_test2.csv','plots/range1000_dev10000-14900.csv'))
+
+
+
+
+def freq_plot_full(df_list):
+    plt.figure(figsize=(10, 6))
+    colors = cycle(['b', 'g', 'r', 'c', 'm', 'y', 'k'])
+    for df, color in zip(df_list, colors):
+        df = df[df['Error'] <=100]
+        dev_value = df['Freq Dev'].iloc[0]
+        plt.plot(df['FM Freq'], df['Error'], marker='o', linestyle='-', color=color, label=f'{dev_value}')
+    plt.xscale('log')
+    plt.title('Percent Error vs. FM Freq', fontsize=24)
+    plt.xlabel('FM Freq', fontsize=22)
+    plt.ylabel('Percent Error', fontsize=22)
+    plt.legend(title='Freq Dev(kHz)')
+    plt.show()
+df_list = [convert('range200_dev100.csv'),convert('range200_dev1000.csv'),convert('range200_dev2500.csv')]
+df_list += [convert('range1000_dev500.csv'),convert('range1000_dev5000.csv'),convert('range1000_dev8000.csv')]
+df_list = [convert('range5_dev5.csv'),convert('range5_dev40.csv'),convert('range5_dev65.csv')]
+freq_plot_full(df_list)
+'''
+def freq_plot_zoom(df_list,range):
+    plt.figure(figsize=(10, 6))
+    colors = cycle(['b', 'g', 'r', 'c', 'm', 'y', 'k'])
+    for df, color, max_val in zip(df_list, colors, range):
+        df['Normalized'] = df['Freq Dev'] / max_val
+        df = df[(df['Error'] >= -1) & (df['Error'] <= 1)]        
+        range_value = df['Range'].iloc[0]
+        plt.plot(df['Normalized'], df['Error'], marker='o', linestyle='-', color=color, label=f'{range_value/100} m/s')
+    
+    plt.xscale('log')
+    plt.title('Percent Error vs. Freq Dev', fontsize=24)
+    plt.xlabel('Normalized Freq Dev', fontsize=22)
+    plt.ylabel('Percent Error', fontsize=22)
+    plt.legend(title='Decoder Setting\nMax Velocity')
+    plt.show()  
+    '''
+def freq_zoom(df_list):
+    plt.figure(figsize=(10, 6))
+    colors = cycle(['b', 'g', 'r', 'c', 'm', 'y', 'k'])
+    for df, color in zip(df_list, colors):
+        df = df[(df['Error'] >= -1) & (df['Error'] <= 1)]  
+        dev_value = df['Freq Dev'].iloc[0]
+        plt.scatter(df['FM Freq'], df['Error'], marker='o', color=color, label=f'{dev_value}')
+    plt.xscale('log')
+    plt.title('Percent Error vs. FM Freq', fontsize=24)
+    plt.xlabel('FM Freq', fontsize=22)
+    plt.ylabel('Percent Error', fontsize=22)
+    plt.legend(title='Freq Dev(kHz)')
+    plt.show()
+freq_zoom(df_list)
