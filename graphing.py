@@ -179,26 +179,9 @@ def freq_plot_full(df_list):
     plt.legend(title='Freq Dev(kHz)')
     plt.show()
 df_list = [convert('range200_dev100.csv'),convert('range200_dev1000.csv'),convert('range200_dev2500.csv')]
-df_list += [convert('range1000_dev500.csv'),convert('range1000_dev5000.csv'),convert('range1000_dev8000.csv')]
-df_list = [convert('range5_dev5.csv'),convert('range5_dev40.csv'),convert('range5_dev65.csv')]
+#df_list = [convert('range1000_dev500.csv'),convert('range1000_dev5000.csv'),convert('range1000_dev8000.csv')]
+#df_list = [convert('range5_dev5.csv'),convert('range5_dev40.csv'),convert('range5_dev65.csv')]
 freq_plot_full(df_list)
-'''
-def freq_plot_zoom(df_list,range):
-    plt.figure(figsize=(10, 6))
-    colors = cycle(['b', 'g', 'r', 'c', 'm', 'y', 'k'])
-    for df, color, max_val in zip(df_list, colors, range):
-        df['Normalized'] = df['Freq Dev'] / max_val
-        df = df[(df['Error'] >= -1) & (df['Error'] <= 1)]        
-        range_value = df['Range'].iloc[0]
-        plt.plot(df['Normalized'], df['Error'], marker='o', linestyle='-', color=color, label=f'{range_value/100} m/s')
-    
-    plt.xscale('log')
-    plt.title('Percent Error vs. Freq Dev', fontsize=24)
-    plt.xlabel('Normalized Freq Dev', fontsize=22)
-    plt.ylabel('Percent Error', fontsize=22)
-    plt.legend(title='Decoder Setting\nMax Velocity')
-    plt.show()  
-    '''
 def freq_zoom(df_list):
     plt.figure(figsize=(10, 6))
     colors = cycle(['b', 'g', 'r', 'c', 'm', 'y', 'k'])
