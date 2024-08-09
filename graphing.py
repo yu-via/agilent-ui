@@ -122,8 +122,8 @@ new_file1000 = 'plots/range1000_dev0.1-13000_new.csv'
 df_list = [combine(file10_1,file10_2),combine(file20_1,file20_2),combine(file50_1,file50_2),combine(file100_1,file100_2),combine(file200_1,file200_2),combine(file500_1,file500_2),combine(file1000_1,file1000_2)]
 df_list = [convert('plots/newrange10.csv'),convert(new_file20),combine(new_file50_1,new_file50_2),convert(new_file100),convert(new_file200),convert(new_file500),combine('plots/new_range1000_test2.csv','plots/range1000_dev10000-14900.csv')]
 range_list = [158,316,790,1580,3160,7901,15802]
-df_list = [convert('ldv2_range2_dev0.001-40.csv'),convert('ldv2_range10_dev0.01-200.csv'),convert('ldv2_range50_dev0.1-940.csv'),convert('ldv2_range10_dev1-170.csv'),convert('ldv2_range100_dev0.1-1800.csv'),convert('ldv2_range100_dev1-1500.csv'),combine('ldv2_range1000_dev1-100.csv','ldv2_range1000_dev0.1-10000.csv')]
-range_list = [31.6,158,790,158,1580,1580,15802]
+df_list = [convert('ldv2_range2_dev0.001-40.csv'),convert('ldv2_range10_dev0.01-200.csv'),convert('ldv2_range50_dev0.1-940.csv'),convert('ldv2_range10_dev1-170.csv'),convert('ldv2_range10_dev0.1-200.csv'),convert('ldv2_range100_dev0.1-1800.csv'),convert('ldv2_range100_dev1-1500.csv'),combine('ldv2_range1000_dev1-100.csv','ldv2_range1000_dev0.1-10000.csv')]
+range_list = [31.6,158,790,158,158,1580,1580,15802]
 combined_plot(df_list,range_list)
 zoom_plot(df_list,range_list)
 '''
